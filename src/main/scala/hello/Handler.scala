@@ -11,7 +11,8 @@ class Handler extends RequestHandler[Request, Response] {
 
   def handleRequest(input: Request, context: Context): Response = {
     logger.info(s"Received a request: $input")
-    Response("Go Serverless v1.0! Your function executed successfully!", input)
+    //Response("Go Serverless v1.0! Your function executed successfully!", input)
+    return Response(Map("message" -> "Go Serverless v1.0! Your function executed successfully!", "request" -> input))
   }
 }
 
