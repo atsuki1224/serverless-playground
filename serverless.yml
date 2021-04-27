@@ -57,14 +57,26 @@ package:
 
 functions:
   hello:
-    handler: hello.Handler
+    handler: dummy
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
     events:
-      - httpApi:
+      - http:
           path: /users/create
           method: get
+          cors: true
+          integration: mock
+          request:
+            template:
+              application/json: '{"statusCode":200}'
+          response:
+            headers:
+              Content-Type: "'text/html'"
+            statusCodes:
+              200:
+                pattern: ''
+            template: ${file(test.html)}
 #      - websocket: $connect
 #      - s3: ${env:BUCKET}
 #      - schedule: rate(10 minutes)
