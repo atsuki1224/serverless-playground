@@ -24,7 +24,6 @@ provider:
   name: aws
   runtime: java8
   lambdaHashingVersion: 20201221
-
 # you can overwrite defaults here
 #  stage: dev
 #  region: us-east-1
@@ -121,3 +120,15 @@ functions:
 #     NewOutput:
 #       Description: "Description for the output"
 #       Value: "Some output value"
+
+plugins:
+  - serverless-offline
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - http:
+          path: hello
+          method: get
+
