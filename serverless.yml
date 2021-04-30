@@ -26,7 +26,7 @@ provider:
   lambdaHashingVersion: 20201221
 # you can overwrite defaults here
 #  stage: dev
-#  region: us-east-1
+  region: ap-northeast-1
 
 # you can add statements to the Lambda function's IAM Role here
 #  iamRoleStatements:
@@ -56,26 +56,26 @@ package:
 
 functions:
   hello:
-    handler: dummy
+    handler: hello.Handler
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
     events:
-      - http:
+      - httpApi:
           path: /users/create
           method: get
-          cors: true
-          integration: mock
-          request:
-            template:
-              application/json: '{"statusCode":200}'
-          response:
-            headers:
-              Content-Type: "'text/html'"
-            statusCodes:
-              200:
-                pattern: ''
-            template: ${file(test.html)}
+          #          cors: true
+          #          integration: mock
+          #          request:
+          #            template:
+          #              application/json: '{"statusCode":200}'
+              # response:
+              #   headers:
+              #     Content-Type: "'text/html'"
+              #   statusCodes:
+              #     200:
+              #       pattern: ''
+              #   template: ${file(test.html)}
 #      - websocket: $connect
 #      - s3: ${env:BUCKET}
 #      - schedule: rate(10 minutes)
@@ -121,14 +121,14 @@ functions:
 #       Description: "Description for the output"
 #       Value: "Some output value"
 
-plugins:
-  - serverless-offline
-
-functions:
-  hello:
-    handler: handler.hello
-    events:
-      - http:
-          path: hello
-          method: get
-
+            # plugins:
+            #   - serverless-offline
+            # 
+            # functions:
+            #   hello:
+            #     handler: handler.hello
+            #     events:
+            #       - http:
+            #           path: hello
+            #           method: get
+            # 
