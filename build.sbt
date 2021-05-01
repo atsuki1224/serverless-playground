@@ -4,12 +4,14 @@ import sbtrelease.Version
 name := "hello"
 
 resolvers += Resolver.sonatypeRepo("public")
-scalaVersion := "2.13.1"
+scalaVersion := "2.12.11"
 releaseNextVersion := { ver =>
   Version(ver).map(_.bumpMinor.string).getOrElse("Error")
 }
 assemblyJarName in assembly := "hello.jar"
 val circeVersion = "0.12.3"
+
+assemblyOutputPath in assembly := file("./akka-http-standalone.jar")
 
 libraryDependencies ++= Seq(
   "com.amazonaws" % "aws-lambda-java-events" % "2.2.7",
@@ -17,11 +19,21 @@ libraryDependencies ++= Seq(
   "com.amazonaws" % "aws-lambda-java-log4j2" % "1.1.0"
 )
 
-libraryDependencies ++= Seq(
-  "io.circe" %% "circe-core",
-  "io.circe" %% "circe-generic",
-  "io.circe" %% "circe-parser"
-).map(_ % circeVersion)
+libraryDependencies ++= {
+  val akkaV = "2.4.2"
+  Seq(
+    "io.circe" %% "circe-core",
+    "io.circe" %% "circe-generic",
+    "io.circe" %% "circe-parser"
+  ).map(_ % circeVersion) ++ Seq(
+    "com.typesafe.akka" %% "akka-actor" % akkaV,
+    "com.typesafe.akka" %% "akka-stream" % akkaV,
+    "com.typesafe.akka" %% "akka-http-experimental" % akkaV,
+    "com.typesafe.akka" %% "akka-http-spray-json-experimental" % akkaV,
+    "com.typesafe.akka" %% "akka-http-xml-experimental" % akkaV,
+    "com.typesafe.akka" %% "akka-http-testkit" % akkaV
+    )
+}
 
 scalacOptions ++= Seq(
   "-unchecked",
@@ -37,3 +49,4 @@ assemblyMergeStrategy in assembly := {
     val oldStrategy = (assemblyMergeStrategy in assembly).value
     oldStrategy(x)
 }
+Revolver.settings
